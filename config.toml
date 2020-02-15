@@ -1,15 +1,38 @@
 # The URL the site will be built for
 base_url = "https://nicksanford.io"
+title = ""
+description = ""
+default_language = "en"
+theme = "sam"
+highlight_code = true
+highlight_theme = "base16-ocean-dark"
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
 
-# Whether to do syntax highlighting
-# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
-highlight_code = true
+check_external_links = true
+
+taxonomies = [
+    {name = "tags", rss = true}
+]
 
 # Whether to build a search index to be used later on by a JavaScript library
 build_search_index = true
 
 [extra]
 # Put all your custom variables here
+home = "home"
+date_format = "%a %b %e, %Y"
+show_word_count = true
+show_reading_count = true
+show_reading_count = true
+sam_menu = [
+    { text = "posts",link = "/posts" },
+    { text = "about",link = "/about" },
+    { text = "github",link = "https://github.com/nicksanford" },
+    { text = "projects",link = "/projects" },
+]
+sam_bottom_menu = true
+
+[extra.sam_footer]
+text = "yo, i'm a footer"
