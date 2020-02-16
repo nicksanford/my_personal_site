@@ -1,6 +1,7 @@
 +++
 title = "elm is awesome"
 date = 2016-02-21
+aliases = ["/posts/2016-02-21-elm-is-awesome", "/posts/2016-02-21-elm-is-awesome.html"]
 [taxonomies]
 +++
 I have spent about two days total since my [previous

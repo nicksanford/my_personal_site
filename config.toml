@@ -29,10 +29,9 @@ show_reading_count = true
 sam_menu = [
     { text = "posts",link = "/posts" },
     { text = "about",link = "/about" },
-    { text = "github",link = "https://github.com/nicksanford" },
     { text = "projects",link = "/projects" },
+    { text = "github",link = "https://github.com/nicksanford" },
 ]
-# sam_bottom_menu = true
 
-# [extra.sam_footer]
-# text = "yo, i'm a footer"
+[extra.sam_footer]
+text = "stay curious"

@@ -8,8 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="referrer" content="no-referrer">
 
-        <link rel="stylesheet" href="http:&#x2F;&#x2F;127.0.0.1:1111&#x2F;fonts.css">
-        <link rel="stylesheet" href="http:&#x2F;&#x2F;127.0.0.1:1111&#x2F;style.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;nicksanford.io&#x2F;fonts.css">
+        <link rel="stylesheet" href="https:&#x2F;&#x2F;nicksanford.io&#x2F;style.css">
 
         <title>
     erlport traps exists
@@ -64,14 +64,14 @@ without needing to stand up an entire web-server to expose it to the BEAM.</p>
 This means that by default, if the process which spawned an
 Erlport process exits, the Erlport process, as well as the port &amp; external python
 or ruby OS process are left running. This can easily lead to a memory leak if
-one is (for example) calling <code>:python.start()</code>, within an
+one is (for example) calling <code>:python.start/0</code> or <code>:ruby.start/0</code>, within an
 <a href="https://hexdocs.pm/elixir/Task.Supervisor.html#async_stream_nolink/6">Task.Supervisor.async_stream_nolink</a>
 task, and not guaranteeing <code>:python.stop/1</code> will be called, expecting
 the task exiting to guarantee that the Erlport process, port, and external OS
 process will also exit.</p>
 <p>Erlport is a fantastic library, just be sure your program guarantees that
 <code>:python.stop/1</code> or <code>:ruby.stop/1</code> is called when when you need to kill the external
-process so that you don't leak memory.</p>
+OS process.</p>
 
 
         </div>
@@ -87,14 +87,14 @@ process so that you don't leak memory.</p>
                     <a href="&#x2F;about">about</a>
                     &#183;
                 
-                    <a href="https:&#x2F;&#x2F;github.com&#x2F;nicksanford">github</a>
-                    &#183;
-                
                     <a href="&#x2F;projects">projects</a>
                     &#183;
                 
+                    <a href="https:&#x2F;&#x2F;github.com&#x2F;nicksanford">github</a>
+                    &#183;
+                
             
-            <a href="http:&#x2F;&#x2F;127.0.0.1:1111">
+            <a href="https:&#x2F;&#x2F;nicksanford.io">
                 home
             </a>
         </p>
@@ -102,8 +102,12 @@ process so that you don't leak memory.</p>
 
         
     
+        <div class="section footer">
+            stay curious
+        </div>
+    
 
     </div>
 
-    <script src="/livereload.js?port=1025&mindelay=10"></script></body>
+    </body>
 </html>

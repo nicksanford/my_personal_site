@@ -1,6 +1,7 @@
 +++
 title = "recurse center"
 date = 2018-07-18
+aliases = ["/posts/2018-07-18-recurse-center", "/posts/2018-07-18-recurse-center.html"]
 [taxonomies]
 +++
 This post is coming about 2 weeks late but:

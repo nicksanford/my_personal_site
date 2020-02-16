@@ -1,7 +1,7 @@
 +++
 title = "haskell pyramid"
-slug = "2018-08-06-haskell-pyramid"
 date = 2018-08-06
+aliases = ["/posts/2018-08-06-haskell-pyramid", "/posts/2018-08-06-haskell-pyramid.html"]
 [taxonomies]
 +++
 

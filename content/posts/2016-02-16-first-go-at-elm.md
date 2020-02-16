@@ -1,6 +1,7 @@
 +++
 title = "first go at elm"
 date = 2016-02-16
+aliases = ["/posts/2016-02-16-first-go-at-elm", "/posts/2016-02-16-first-go-at-elm.html"]
 [taxonomies]
 +++
 

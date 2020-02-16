@@ -1,6 +1,5 @@
 +++
 title = "erlport traps exists"
-slug = "slug"
 date = 2020-02-15
 [taxonomies]
 +++
@@ -27,7 +26,7 @@ However, one surprising (to me) behavior I discovered is that [Erlport processes
 This means that by default, if the process which spawned an
 Erlport process exits, the Erlport process, as well as the port & external python
 or ruby OS process are left running. This can easily lead to a memory leak if
-one is (for example) calling `:python.start()`, within an
+one is (for example) calling `:python.start/0` or `:ruby.start/0`, within an
 [Task.Supervisor.async_stream_nolink](https://hexdocs.pm/elixir/Task.Supervisor.html#async_stream_nolink/6)
 task, and not guaranteeing `:python.stop/1` will be called, expecting
 the task exiting to guarantee that the Erlport process, port, and external OS
@@ -35,4 +34,4 @@ process will also exit.
 
 Erlport is a fantastic library, just be sure your program guarantees that
 `:python.stop/1` or `:ruby.stop/1` is called when when you need to kill the external
-process so that you don't leak memory.
+OS process.
