@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+
+        <link rel="stylesheet" href="http:&#x2F;&#x2F;127.0.0.1:1111&#x2F;fonts.css">
+        <link rel="stylesheet" href="http:&#x2F;&#x2F;127.0.0.1:1111&#x2F;style.css">
+
+        <title>
+    recurse center
+</title>
+
+        
+    </head>
+    <body>
+        
+    <div class="wrap">
+        <div class="section" id="title">
+            
+    recurse center
+
+        </div>
+        <div class="section" id="content">
+            
+    
+        
+            
+    
+    Wed Jul 18, 2018
+
+        
+        
+        
+            
+            
+                &#183; 3 min
+            
+        
+        
+        <hr/>
+    
+    <p>This post is coming about 2 weeks late but:</p>
+<ol>
+<li>I applied &amp; got into the <a href="https://www.recurse.com/">Recurse Center</a>, YAY!</li>
+<li>2 weeks ago I started my batch (Summer 2)</li>
+</ol>
+<p>My plan going in was to learn more about the following topics: </p>
+<ol>
+<li>Strongly Typed Functional Programming</li>
+<li>Low Level Programming</li>
+<li>Contributing to Open Source projects</li>
+</ol>
+<p>This is a fly by summary of what I have done in my batch so far:</p>
+<p>I have been mainly focused on the first goal of learning more about strongly typed functional programming, working through the <a href="https://haskellbook.com/">Haskell Book</a> and doing all the exercises for all chapters. I am currently on chapter 15. The book has been a fantastic resource and really helped drive home the fundamentals which are needed for building real projects in Haskell.  The small Haskell exercises / projects I am doing at RC are kept <a href="https://github.com/nicksanford/RC_haskell">here</a>. </p>
+<p>I also gave a 5 minute presentation on folds and unfolds (the slides for which can be found <a href="https://docs.google.com/presentation/d/1Bq_zQINCsicC3pstZ-nyOopeUWwPJHNQXV0eRW8GSho/edit#slide=id.p">here</a>).</p>
+<p>I also worked with Omar on a <a href="https://github.com/nicksanford/haskellchemparser">parser</a> to parse chemical formulas using <a href="https://wiki.haskell.org/Parsec">Parsec</a>, which was my first exposure to using parser combinators and monad transformers and a fantastic exercise.</p>
+<p>I decided that the first project big project which I want to work on during my batch is a BitTorrent client in Haskell.  A possible second / alternative project is enabling the nix package manager to install packages from the bittorrent network. Both of those require learning about how bittorrent works / how DHTs work, which I have begun doing by studying a combination of specifications and reference implementations (listed below):</p>
+<p>I have also learned about a number of miscellaneous things like how OCaml's module system works (at a high level), how rust's traits work (and how the are very similar to Haskell's typeclasses). I also learned that the state monad is not adding any capabilities that are not already present in folds.</p>
+<h4 id="resources">Resources</h4>
+<p>BitTorrent Implementations:</p>
+<ol>
+<li>Python: <a href="https://github.com/jefflovejapan/drench">https://github.com/jefflovejapan/drench</a></li>
+<li>Python: <a href="https://github.com/borzunov/bit-torrent">https://github.com/borzunov/bit-torrent</a></li>
+<li>JS: <a href="https://github.com/kzahel/jstorrent">https://github.com/kzahel/jstorrent</a></li>
+<li>Erlang: This is a pretty massive file which is going to take a while to understand / untangle. <a href="https://github.com/jlouis/etorrent">https://github.com/jlouis/etorrent</a></li>
+<li><a href="https://www.libtorrent.org/">https://www.libtorrent.org/</a></li>
+</ol>
+<p>BitTorrent Specifications:</p>
+<ol>
+<li><a href="https://www.bittorrent.org/beps/bep_0000.html">https://www.bittorrent.org/beps/bep_0000.html</a></li>
+<li><a href="https://wiki.theory.org/index.php/Main_Page">https://wiki.theory.org/index.php/Main_Page</a></li>
+</ol>
+<p>DHT Information Specs / Projects:</p>
+<ol>
+<li><a href="https://en.wikipedia.org/wiki/Kademlia">https://en.wikipedia.org/wiki/Kademlia</a></li>
+<li><a href="https://stackoverflow.com/questions/1332107/how-does-dht-in-torrents-work">https://stackoverflow.com/questions/1332107/how-does-dht-in-torrents-work</a></li>
+<li><a href="https://github.com/allanlw/dhtplay">https://github.com/allanlw/dhtplay</a></li>
+<li><a href="https://www.bittorrent.org/beps/bep_0005.html">https://www.bittorrent.org/beps/bep_0005.html</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Magnet_URI_scheme">https://en.wikipedia.org/wiki/Magnet_URI_scheme</a></li>
+<li><a href="https://github.com/jlouis/dht">https://github.com/jlouis/dht</a></li>
+<li><a href="https://github.com/kevinlynx/dhtcrawler2">https://github.com/kevinlynx/dhtcrawler2</a></li>
+<li><a href="https://stackoverflow.com/questions/1181301/how-does-a-dht-in-a-bittorent-client-get-bootstrapped">https://stackoverflow.com/questions/1181301/how-does-a-dht-in-a-bittorent-client-get-bootstrapped</a></li>
+</ol>
+<p>Nix + BitTorrent:</p>
+<ol>
+<li><a href="https://github.com/NixOS/nixpkgs/blob/master/nixos/tests/bittorrent.nix">https://github.com/NixOS/nixpkgs/blob/master/nixos/tests/bittorrent.nix</a></li>
+<li><a href="https://sourcediver.org/blog/2017/01/18/distributing-nixos-with-ipfs-part-1/">https://sourcediver.org/blog/2017/01/18/distributing-nixos-with-ipfs-part-1/</a></li>
+<li><a href="https://news.ycombinator.com/item?id=13436026">https://news.ycombinator.com/item?id=13436026</a></li>
+<li><a href="https://github.com/shlevy/nix-plugins">https://github.com/shlevy/nix-plugins</a></li>
+</ol>
+
+
+        </div>
+        
+    <div class="section bottom-menu">
+        <hr/>
+        <p>
+            
+                
+                    <a href="&#x2F;posts">posts</a>
+                    &#183;
+                
+                    <a href="&#x2F;about">about</a>
+                    &#183;
+                
+                    <a href="https:&#x2F;&#x2F;github.com&#x2F;nicksanford">github</a>
+                    &#183;
+                
+                    <a href="&#x2F;projects">projects</a>
+                    &#183;
+                
+            
+            <a href="http:&#x2F;&#x2F;127.0.0.1:1111">
+                home
+            </a>
+        </p>
+    </div>
+
+        
+    
+
+    </div>
+
+    <script src="/livereload.js?port=1025&mindelay=10"></script></body>
+</html>

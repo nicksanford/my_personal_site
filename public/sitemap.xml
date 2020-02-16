@@ -6,4 +6,51 @@
             
         </url>
     
+        <url>
+            <loc>http://127.0.0.1:1111/posts/</loc>
+            
+        </url>
+    
+        <url>
+            <loc>http://127.0.0.1:1111/posts/2018-08-06-haskell-pyramid/</loc>
+            
+                <lastmod>2018-08-06</lastmod>
+            
+        </url>
+    
+        <url>
+            <loc>http://127.0.0.1:1111/posts/elm-is-awesome/</loc>
+            
+                <lastmod>2016-02-21</lastmod>
+            
+        </url>
+    
+        <url>
+            <loc>http://127.0.0.1:1111/posts/first-go-at-elm/</loc>
+            
+                <lastmod>2016-02-16</lastmod>
+            
+        </url>
+    
+        <url>
+            <loc>http://127.0.0.1:1111/posts/recurse-center/</loc>
+            
+                <lastmod>2018-07-18</lastmod>
+            
+        </url>
+    
+        <url>
+            <loc>http://127.0.0.1:1111/posts/silly-side-projects/</loc>
+            
+                <lastmod>2016-02-14</lastmod>
+            
+        </url>
+    
+        <url>
+            <loc>http://127.0.0.1:1111/posts/slug/</loc>
+            
+                <lastmod>2020-02-15</lastmod>
+            
+        </url>
+    
 </urlset>

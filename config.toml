@@ -23,7 +23,7 @@ build_search_index = true
 # Put all your custom variables here
 home = "home"
 date_format = "%a %b %e, %Y"
-show_word_count = true
+show_word_count = false
 show_reading_count = true
 show_reading_count = true
 sam_menu = [
@@ -32,7 +32,7 @@ sam_menu = [
     { text = "github",link = "https://github.com/nicksanford" },
     { text = "projects",link = "/projects" },
 ]
-sam_bottom_menu = true
+# sam_bottom_menu = true
 
-[extra.sam_footer]
-text = "yo, i'm a footer"
+# [extra.sam_footer]
+# text = "yo, i'm a footer"

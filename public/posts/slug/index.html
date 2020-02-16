@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+
+        <link rel="stylesheet" href="http:&#x2F;&#x2F;127.0.0.1:1111&#x2F;fonts.css">
+        <link rel="stylesheet" href="http:&#x2F;&#x2F;127.0.0.1:1111&#x2F;style.css">
+
+        <title>
+    erlport traps exists
+</title>
+
+        
+    </head>
+    <body>
+        
+    <div class="wrap">
+        <div class="section" id="title">
+            
+    erlport traps exists
+
+        </div>
+        <div class="section" id="content">
+            
+    
+        
+            
+    
+    Sat Feb 15, 2020
+
+        
+        
+        
+            
+            
+                &#183; 2 min
+            
+        
+        
+        <hr/>
+    
+    <p>One of the killer features of <a href="https://en.wikipedia.org/wiki/BEAM_(Erlang_virtual_machine)">BEAM</a> 
+languages such as Erlang &amp; Elixir is <a href="http://erlang.org/doc/reference_manual/ports.html">ports</a>. 
+Ports allow a BEAM process to communicate with an external OS process safely.</p>
+<p>If one reads the port docs (link above) one finds that, when a port is spawned
+it is linked to the BEAM process that spawned it (called the <a href="http://erlang.org/doc/tutorial/c_port.html">connected process</a>) 
+&amp; that if the port exits, the external OS process exits as well (assuming it is well behaved).
+This is behavior is useful because it means that if the connected process crashes
+you won't leak resources by having a growing number of unmanaged external OS
+processes. The design protects against resource leaks by default.</p>
+<p><a href="http://erlport.org/">Erlport</a> is an Erlang library which provides seamless
+communication between python or ruby programs and BEAM programs via ports &amp; 
+automatically converts between Erlang &amp; external language data-structures. Erlport
+makes it very easy to interact with a python or ruby program as if it were another BEAM process,
+which can be very useful for leveraging libraries written in ruby or python,
+without needing to stand up an entire web-server to expose it to the BEAM.</p>
+<p>However, one surprising (to me) behavior I discovered is that <a href="https://github.com/hdima/erlport/blob/master/src/erlport.erl#L118">Erlport processes</a>
+<a href="http://erlang.org/doc/reference_manual/processes.html#receiving-exit-signals">trap exits</a>.
+This means that by default, if the process which spawned an
+Erlport process exits, the Erlport process, as well as the port &amp; external python
+or ruby OS process are left running. This can easily lead to a memory leak if
+one is (for example) calling <code>:python.start()</code>, within an
+<a href="https://hexdocs.pm/elixir/Task.Supervisor.html#async_stream_nolink/6">Task.Supervisor.async_stream_nolink</a>
+task, and not guaranteeing <code>:python.stop/1</code> will be called, expecting
+the task exiting to guarantee that the Erlport process, port, and external OS
+process will also exit.</p>
+<p>Erlport is a fantastic library, just be sure your program guarantees that
+<code>:python.stop/1</code> or <code>:ruby.stop/1</code> is called when when you need to kill the external
+process so that you don't leak memory.</p>
+
+
+        </div>
+        
+    <div class="section bottom-menu">
+        <hr/>
+        <p>
+            
+                
+                    <a href="&#x2F;posts">posts</a>
+                    &#183;
+                
+                    <a href="&#x2F;about">about</a>
+                    &#183;
+                
+                    <a href="https:&#x2F;&#x2F;github.com&#x2F;nicksanford">github</a>
+                    &#183;
+                
+                    <a href="&#x2F;projects">projects</a>
+                    &#183;
+                
+            
+            <a href="http:&#x2F;&#x2F;127.0.0.1:1111">
+                home
+            </a>
+        </p>
+    </div>
+
+        
+    
+
+    </div>
+
+    <script src="/livereload.js?port=1025&mindelay=10"></script></body>
+</html>
