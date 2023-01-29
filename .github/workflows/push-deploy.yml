@@ -23,7 +23,10 @@ jobs:
         CHECK_LINKS: true
         PAGES_BRANCH: master
 
-  build:
+
+
+
+  publish:
     name: Publish site
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/source'
