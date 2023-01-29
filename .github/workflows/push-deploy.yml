@@ -23,6 +23,7 @@ jobs:
         BUILD_ONLY: true
         CHECK_LINKS: false
         PAGES_BRANCH: main
+        TARGET_REPOSITORY: ${{ github.repository }}
 
   publish:
     name: Build & Publish Site
@@ -37,3 +38,4 @@ jobs:
         CHECK_LINKS: false
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PAGES_BRANCH: main
+        TARGET_REPOSITORY: ${{ github.repository }}

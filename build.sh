@@ -7,6 +7,11 @@ if [[ -z "$PAGES_BRANCH" ]]; then
     exit 1
 fi
 
+if [[ -z "$TARGET_REPOSITORY" ]]; then
+    echo "Set the TARGET_REPOSITORY env variable."
+    exit 1
+fi
+
 if [[ -z "$BUILD_DIR" ]]; then
     BUILD_DIR="."
 fi
@@ -14,8 +19,6 @@ fi
 if [[ -z "$OUT_DIR" ]]; then
     OUT_DIR="public"
 fi
-
-TARGET_REPOSITORY=$REPOSITORY
 
 if [[ -z "$BUILD_ONLY" ]]; then
     BUILD_ONLY=false
@@ -43,13 +46,12 @@ main() {
     wget -q -O - "https://github.com/getzola/zola/releases/download/v0.16.1/zola-v0.16.1-x86_64-unknown-linux-gnu.tar.gz" | tar xzf - -C /usr/local/bin
     echo "Starting deploy..."
 
-    echo "REPOSITORY: $REPOSITORY"
     echo "GITHUB_SERVER_URL: $GITHUB_SERVER_URL"
     echo "GITHUB_HOSTNAME: $GITHUB_HOSTNAME"
+    echo "TARGET_REPOSITORY: $TARGET_REPOSITORY"
 
 
     git config --global url."https://".insteadOf git://
-    ## $GITHUB_SERVER_URL is set as a default environment variable in all workflows, default is https://github.com
     git config --global url."$GITHUB_SERVER_URL/".insteadOf "git@${GITHUB_HOSTNAME}":
     if [[ "$BUILD_THEMES" ]]; then
         echo "Fetching themes"
