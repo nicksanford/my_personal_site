@@ -3,7 +3,7 @@ title = "About"
 [extra]
 no_header = true
 +++
-Hi, I'm Nick Sanford. I'm a software developer with over 6 years professional
+Hi, I'm Nick Sanford. I'm a software developer with over 9 years professional
 experience building everything from web to embedded applications in languages
 such as Elixir, Erlang, Python, Ruby, and Javascript.
 
