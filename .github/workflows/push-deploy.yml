@@ -6,6 +6,7 @@ on:
      - source
   pull_request:
 
+
 jobs:
   build:
     name: Build site
@@ -20,13 +21,12 @@ jobs:
         BUILD_ONLY: true
         PAGES_BRANCH: master
 
-
-
-
   publish:
     name: Publish site
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/source'
+    permissions:
+      contents: write
     steps:
     - name: Checkout source
       uses: actions/checkout@v3
