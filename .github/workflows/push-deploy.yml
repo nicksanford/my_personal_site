@@ -6,6 +6,8 @@ on:
      - source
   pull_request:
 
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -25,8 +27,6 @@ jobs:
     name: Publish site
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/source'
-    permissions:
-      contents: write
     steps:
     - name: Checkout source
       uses: actions/checkout@v3
