@@ -2,13 +2,9 @@
 set -e
 set -o pipefail
 
-# For backwards compatibility
-if [[ -n "$TOKEN" ]]; then
-    GITHUB_TOKEN=$TOKEN
-fi
-
 if [[ -z "$PAGES_BRANCH" ]]; then
-    PAGES_BRANCH="gh-pages"
+    echo "Set the PAGES_BRANCH env variable."
+    exit 1
 fi
 
 if [[ -z "$BUILD_DIR" ]]; then
@@ -19,15 +15,7 @@ if [[ -z "$OUT_DIR" ]]; then
     OUT_DIR="public"
 fi
 
-if [[ -n "$REPOSITORY" ]]; then
-    TARGET_REPOSITORY=$REPOSITORY
-else
-    if [[ -z "$GITHUB_REPOSITORY" ]]; then
-        echo "Set the GITHUB_REPOSITORY env variable."
-        exit 1
-    fi
-    TARGET_REPOSITORY=${GITHUB_REPOSITORY}
-fi
+TARGET_REPOSITORY=$REPOSITORY
 
 if [[ -z "$BUILD_ONLY" ]]; then
     BUILD_ONLY=false
@@ -54,6 +42,11 @@ main() {
     echo "Installing zola"
     wget -q -O - "https://github.com/getzola/zola/releases/download/v0.16.1/zola-v0.16.1-x86_64-unknown-linux-gnu.tar.gz" | tar xzf - -C /usr/local/bin
     echo "Starting deploy..."
+
+    echo "REPOSITORY: $REPOSITORY"
+    echo "GITHUB_SERVER_URL: $GITHUB_SERVER_URL"
+    echo "GITHUB_HOSTNAME: $GITHUB_HOSTNAME"
+
 
     git config --global url."https://".insteadOf git://
     ## $GITHUB_SERVER_URL is set as a default environment variable in all workflows, default is https://github.com
@@ -100,4 +93,3 @@ main() {
 }
 
 main "$@"
-

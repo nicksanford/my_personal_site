@@ -16,10 +16,11 @@ jobs:
     - name: Checkout source
       uses: actions/checkout@v3
     - run: echo "Running entrypoint.sh"
-    - run: ./entrypoint.sh
+    - run: ./build.sh
       env:
         BUILD_ONLY: true
-        PAGES_BRANCH: master
+        PAGES_BRANCH: main
+        CHECK_LINKS: true
 
   publish:
     name: Publish site
@@ -34,4 +35,5 @@ jobs:
       uses: shalzz/zola-deploy-action@v0.12.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PAGES_BRANCH: master
+        PAGES_BRANCH: main
+        CHECK_LINKS: true
