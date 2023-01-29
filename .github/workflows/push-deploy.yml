@@ -15,8 +15,8 @@ jobs:
     steps:
     - name: Checkout source
       uses: actions/checkout@v3
-    - name: Build only
-      uses: shalzz/zola-deploy-action@v0.12.2
+    - run: echo "Running entrypoint.sh"
+    - run: ./entrypoint.sh
       env:
         BUILD_ONLY: true
         PAGES_BRANCH: master
@@ -25,13 +25,13 @@ jobs:
     name: Publish site
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/source'
-    permissions:
-      contents: write
     steps:
     - name: Checkout source
       uses: actions/checkout@v3
     - name: Build and deploy
       uses: shalzz/zola-deploy-action@v0.12.2
+      permissions:
+        contents: write
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PAGES_BRANCH: master
