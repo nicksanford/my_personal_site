@@ -1,5 +1,5 @@
 +++
-title = "TIL - Makefile target prerequisites concurrent"
+title = "TIL - Makefile target prerequisites are concurrent"
 date = 2023-01-29
 [taxonomies]
 +++
