@@ -17,8 +17,6 @@ jobs:
     - name: Build only
       uses: shalzz/zola-deploy-action@v0.16.1
       env:
-        BUILD_DIR: .
-        BUILD_FLAGS:
         BUILD_ONLY: true
         PAGES_BRANCH: master
 
@@ -35,7 +33,5 @@ jobs:
     - name: Build and deploy
       uses: shalzz/zola-deploy-action@v0.12.0
       env:
-        BUILD_DIR: .
-        BUILD_FLAGS:
         TOKEN: ${{ secrets.TOKEN }}
         PAGES_BRANCH: master
