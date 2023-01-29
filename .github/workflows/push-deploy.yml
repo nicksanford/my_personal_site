@@ -33,5 +33,5 @@ jobs:
     - name: Build and deploy
       uses: shalzz/zola-deploy-action@v0.14.0
       env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PAGES_BRANCH: master
