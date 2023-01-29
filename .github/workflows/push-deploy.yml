@@ -11,27 +11,29 @@ permissions:
 
 jobs:
   build:
-    name: Build site
+    name: Build Site
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/source'
     steps:
     - name: Checkout source
       uses: actions/checkout@v3
-    - name: Build only
-      uses: shalzz/zola-deploy-action@v0.12.2
+    - run: echo "Running build.sh"
+    - run: ./build.sh
       env:
         BUILD_ONLY: true
-        PAGES_BRANCH: master
+        CHECK_LINKS: false
+        PAGES_BRANCH: main
 
   publish:
-    name: Publish site
+    name: Build & Publish Site
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/source'
     steps:
     - name: Checkout source
       uses: actions/checkout@v3
-    - name: Build and deploy
-      uses: shalzz/zola-deploy-action@v0.12.2
+    - run: echo "Running build.sh"
+    - run: ./build.sh
       env:
+        CHECK_LINKS: false
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PAGES_BRANCH: master
+        PAGES_BRANCH: main
