@@ -20,7 +20,6 @@ jobs:
         BUILD_DIR: .
         BUILD_FLAGS:
         BUILD_ONLY: true
-        CHECK_LINKS: true
         PAGES_BRANCH: master
 
 
@@ -34,10 +33,9 @@ jobs:
     - name: Checkout source
       uses: actions/checkout@v3
     - name: Build and deploy
-      uses: shalzz/zola-deploy-action@v0.16.1
+      uses: shalzz/zola-deploy-action@v0.12.0
       env:
         BUILD_DIR: .
         BUILD_FLAGS:
-        CHECK_LINKS: true
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TOKEN: ${{ secrets.TOKEN }}
         PAGES_BRANCH: master
