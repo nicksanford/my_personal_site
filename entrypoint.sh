@@ -51,6 +51,8 @@ if [[ -z "$GITHUB_HOSTNAME" ]]; then
 fi
 
 main() {
+    echo "Installing zola"
+    wget -q -O - "https://github.com/getzola/zola/releases/download/v0.16.1/zola-v0.16.1-x86_64-unknown-linux-gnu.tar.gz" | tar xzf - -C /usr/local/bin
     echo "Starting deploy..."
 
     git config --global url."https://".insteadOf git://
