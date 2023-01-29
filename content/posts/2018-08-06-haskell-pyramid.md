@@ -74,7 +74,7 @@ disjunction (`or`), (`a && b && c`) and (`a || b || c`) patterns, list concatena
 and zipping all exhibit Monoidal behavior (i.e. they have an identity value and 
 a binary associative operation).
 
-[Lucy Zhang](https://github.com/lucy-zhang) also showed me that Groups (which
+[Thomas Zhang](https://github.com/thoszhang) also showed me that Groups (which
 I came across when researching [Kademlia](https://en.wikipedia.org/wiki/Kademlia),
 the [DHT](https://en.wikipedia.org/wiki/Distributed_hash_table) protocol used 
 in BitTorrent and IPFS) are Monoids that have an inverse for every value. An 
