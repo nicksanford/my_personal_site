@@ -21,7 +21,7 @@ jobs:
     - run: ./build.sh
       env:
         BUILD_ONLY: true
-        CHECK_LINKS: false
+        CHECK_LINKS: true
         PAGES_BRANCH: main
         TARGET_REPOSITORY: ${{ github.repository }}
 
@@ -35,7 +35,7 @@ jobs:
     - run: echo "Running build.sh"
     - run: ./build.sh
       env:
-        CHECK_LINKS: false
+        CHECK_LINKS: true
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PAGES_BRANCH: main
         TARGET_REPOSITORY: ${{ github.repository }}
