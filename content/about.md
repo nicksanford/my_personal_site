@@ -9,6 +9,6 @@ such as Elixir, Erlang, Python, Ruby, and Javascript.
 
 I love learning new (to me) languages and ways of thinking about programming.
 
-Some topics I'm most interested in now include Rust, SAT solvers & other OR
-approaches, sandboxed runtimes, and programming environments that empower people
+Some topics I'm most interested in now include Robotics, Rust,
+Ocaml, sandboxed runtimes, and programming environments that empower people
 who don't think of themselves as programmers to be able to program.
