@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+
+        <link rel="stylesheet" href="https://nicksanford.io/fonts.css">
+        <link rel="stylesheet" href="https://nicksanford.io/style.css">
+
+        <title>
+    TIL - Makefile target prerequisites are concurrent
+</title>
+
+        
+    </head>
+    <body>
+        
+    <div class="wrap">
+        <div class="section" id="title">
+            
+    TIL - Makefile target prerequisites are concurrent
+
+        </div>
+        <div class="section" id="sections">
+            
+        </div>
+        <div class="section" id="content">
+            
+    
+        
+            
+    
+    Sun Jan 29, 2023
+
+        
+        
+        
+            
+            
+                &#183; 2 min
+            
+        
+        
+        
+        <hr/>
+    
+    <p>Today I learned that when make evaluates Makefile target prerequisites, it assumes that the order of dependency resolution doesn't matter.</p>
+<p>As a result Makefile target prerequisites are assumed to be concurrent.</p>
+<p>Lets say you have a Makefile like this:</p>
+<pre data-lang="Makefile" class="language-Makefile "><code class="language-Makefile" data-lang="Makefile">do: build run
+
+build:
+	echo &quot;building&quot;
+	sleep 2
+	echo &quot;built&quot;
+
+run:
+	echo &quot;running&quot;
+</code></pre>
+<p>and you run</p>
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">make do
+</code></pre>
+<p><code>do</code> will execute <code>build</code> and <code>run</code>. </p>
+<p>On many systems they will appear to execute sequentially:</p>
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">$ make do
+echo &quot;building&quot;
+building
+sleep 2
+... 2 seconds later ...
+echo &quot;built&quot;
+built
+echo &quot;running&quot;
+running
+</code></pre>
+<p>This is because by default <code>make</code> only executes one job with a single core.</p>
+<p>However GNU make is also able to run a given number of parallel jobs, which will then allow the concurrent parts of the Makefile to execute in parallel:</p>
+<pre data-lang="bash" class="language-bash "><code class="language-bash" data-lang="bash">$ make --help | grep jobs
+  -j [N], --jobs[=N]          Allow N jobs at once; infinite jobs with no arg.
+# assuming your computer has more than one logical core
+$ make -j 2 do
+echo &quot;building&quot;
+echo &quot;running&quot;
+... run executes before build completes ...
+running
+building
+sleep 2
+echo &quot;built&quot;
+built
+</code></pre>
+<p>This is important to keep in mind when creating a Makefile to ensure one is not defining a Makefile target which requires its dependencies to be evaluated in a specific order.</p>
+
+
+        </div>
+        
+    <div class="section bottom-menu">
+        <hr/>
+        <p>
+            
+                
+                    <a href="&#x2F;posts">posts</a>
+                    &#183;
+                
+                    <a href="&#x2F;about">about</a>
+                    &#183;
+                
+                    <a href="&#x2F;projects">projects</a>
+                    &#183;
+                
+                    <a href="https:&#x2F;&#x2F;github.com&#x2F;nicksanford">github</a>
+                    &#183;
+                
+            
+            <a href="https:&#x2F;&#x2F;nicksanford.io">
+                home
+            </a>
+        </p>
+    </div>
+
+        
+    
+        <div class="section footer">
+            stay curious
+        </div>
+    
+
+    </div>
+
+    </body>
+</html>

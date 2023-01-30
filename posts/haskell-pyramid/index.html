@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="referrer" content="no-referrer">
+
+        <link rel="stylesheet" href="https://nicksanford.io/fonts.css">
+        <link rel="stylesheet" href="https://nicksanford.io/style.css">
+
+        <title>
+    haskell pyramid
+</title>
+
+        
+    </head>
+    <body>
+        
+    <div class="wrap">
+        <div class="section" id="title">
+            
+    haskell pyramid
+
+        </div>
+        <div class="section" id="sections">
+            
+        </div>
+        <div class="section" id="content">
+            
+    
+        
+            
+    
+    Mon Aug  6, 2018
+
+        
+        
+        
+            
+            
+                &#183; 10 min
+            
+        
+        
+        
+        <hr/>
+    
+    <p>Since my last post I have been climbing what I recently heard 
+<a href="https://twitter.com/argumatronic">Julie Moronuki</a> call the 
+<a href="https://youtu.be/iuwUUlDfHcw?t=47m32s">Haskell Pyramid</a>. I have been learning
+about the bread and butter abstractions which Haskell programmers use all the time
+and serve as useful tools to describe and compose  programs. These are not only 
+required knowledge to be able to use most of the really cool
+Haskell features that excite me (which I will cover in a later post) but also
+useful ways to model computation in general, even if one is not using
+Haskell.</p>
+<p>I have been learning about SemiGroups, Monoids, Functors, Applicatives, Monads, Foldables, 
+Traversables and Reader from the <a href="https://haskellbook.com/">Haskell Book</a>, which
+Julie co-authored. I figured that now would be a good time to take stock of what
+I have learned. This is meant to be a fly by of these topics, more of a cheatsheet
+than a tour.  If you want to learn more about these topics, I recommend checking
+out <a href="https://haskellbook.com/">Haskell Book</a>. All the exercises I worked through 
+to gain an intuition about these abstractions can be found 
+<a href="https://github.com/nicksanford/RC_haskell">here</a></p>
+<p>SemiGroup, Monoid, Functor, Applicative, and Monad are abstractions,
+which have laws, which concrete implementations must conform to in order to be 
+a valid instances of that abstraction. While learning about these abstractions, 
+I used  QuickCheck, a property 
+based testing library, to verify that the instances I wrote conformed
+to the appropriate laws.  I found this to be an extremely effective way to learn
+new concepts because my test suite was able to serve as a constant feedback loop.</p>
+<h4 id="semigroup">SemiGroup</h4>
+<p>As described on the <a href="https://hackage.haskell.org/package/semigroups">Hackage SemiGroup package</a>, a SemiGroup is an algebraic structure, consisting of a set together with an associative, binary operation (<code>&lt;&gt;</code>).
+the 
+I know this function <code>&lt;&gt;</code> is called <code>mappend</code> if on Monoid, but I don't know 
+what it is called on SemiGroup.</p>
+<p>In order for something to be a valid SemiGroup it's <code>&lt;&gt;</code> function must be binary
+(take two arguments) and associative:</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">a &lt;&gt; (b &lt;&gt; c) == (a &lt;&gt; b) &lt;&gt; c
+</code></pre>
+<p>Some things that exhibit SemiGroup behavior include non empty lists, and getting
+the first and last elements from a sequence of (<code>&lt;&gt;</code>) calls:</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">First 1 &lt;&gt; First 2 &lt;&gt; First 3
+=&gt; First 1
+</code></pre>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">Last 1 &lt;&gt; Last 2 &lt;&gt; Last 3
+=&gt; Last 3
+</code></pre>
+<h4 id="monoid">Monoid</h4>
+<p>Monoids are a SemiGroup that has an identity value (described by <code>mempty</code>) such that:</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">mempty &lt;&gt; x == x
+x &lt;&gt; mempty == x
+</code></pre>
+<p>All Monoids also have the binary associative function <code>&lt;&gt;</code> which can be inherited
+from their SemiGroup instance, and is called <code>mappend</code> (i.e. <code>&lt;&gt; == mappend</code> if it is
+being applied to a Monoid).</p>
+<p>Numbers (both over multiplication and addition) boolean conjunction (<code>and</code>) 
+disjunction (<code>or</code>), (<code>a &amp;&amp; b &amp;&amp; c</code>) and (<code>a || b || c</code>) patterns, list concatenation
+and zipping all exhibit Monoidal behavior (i.e. they have an identity value and 
+a binary associative operation).</p>
+<p><a href="https://github.com/thoszhang">Thomas Zhang</a> also showed me that Groups (which
+I came across when researching <a href="https://en.wikipedia.org/wiki/Kademlia">Kademlia</a>,
+the <a href="https://en.wikipedia.org/wiki/Distributed_hash_table">DHT</a> protocol used 
+in BitTorrent and IPFS) are Monoids that have an inverse for every value. An 
+example of groups would be integers over addition, where zero is it's own 
+inverse, and negative numbers and positive numbers are inverses of each other.</p>
+<p>Monoids have kind <code>*</code>.</p>
+<h4 id="functor">Functor</h4>
+<p>Functors have some structure that is not able to be altered, but which can allow 
+for transformations on values that are not part of the structure.
+List, Maybe, Either, Tuples, and functions are all functors.</p>
+<p>They implement <code>fmap</code>, which can also be written as <code>&lt;$&gt;</code>.</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">fmap :: Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</code></pre>
+<p>and have the following laws which they must obey to preserve
+their structure:</p>
+<h5 id="identity">identity</h5>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">fmap id == id
+</code></pre>
+<h5 id="composition">composition</h5>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">fmap (f . g) == fmap f . fmap g
+</code></pre>
+<p>If you try to change the structure of a functor it will violate the composition 
+law, as applying <code>fmap</code> multiple times will yield a different result, than just 
+applying it once and composing two functions.</p>
+<p>Functors must have kind <code>* -&gt; *</code> as they must have a type inhabitant which is not
+part of the structure, such as the <code>Right</code> values in the case of <code>Either</code>, or 
+list elements in the case of Lists .</p>
+<p>Lists, functions, and <code>IO</code> are all examples of functors. Function composition, <code>.</code>, is <code>fmap</code> on functions:</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">(.) :: (b -&gt; c) -&gt; (a -&gt; b) -&gt; (a -&gt; c)
+</code></pre>
+<p>where <code>f</code> is <code>(-&gt; a)</code>.</p>
+<p>Something I found profoundly beautiful is when one applies <code>fmap</code> to itself (as
+in the example below)</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">(fmap . fmap) show [Just 1, Just 3, Nothing] 
+=&gt; [Just &quot;1&quot;, Just &quot;3&quot;, Nothing]
+</code></pre>
+<p>the way the types work out requires algebraic substitution of the types:</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">(.) :: (b -&gt; c) -&gt; (a -&gt; b) -&gt; (a -&gt; c)
+fmap1 :: Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+fmap2 :: Functor g =&gt; (c -&gt; d) -&gt; g c -&gt; g d
+</code></pre>
+<p>In <code>fmap . fmap</code> the type signature expands out to </p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">((a -&gt; b) -&gt; (f a -&gt; f b)) -&gt; ((c -&gt; d) -&gt; (g c -&gt; g d))
+</code></pre>
+<p>Because we know that the <code>b</code> in compose </p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">(b -&gt; c) -&gt; (a -&gt; b) -&gt; (a -&gt; c)
+</code></pre>
+<p>is the same as: </p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">(a -&gt; b)
+</code></pre>
+<p>in the first fmap, and</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">(g c -&gt; g d)
+</code></pre>
+<p>in the second fmap</p>
+<p>we know that <code>f a</code> from the first fmap can be rewritten as <code>f (g c)</code> and 
+<code>f b</code> from the second can be rewritten as <code>f (g d)</code>,</p>
+<p>which means we can rewrite our type signature for <code>fmap . fmap</code> as</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">(c -&gt; d) -&gt; (f (g c) -&gt; f (g d))
+</code></pre>
+<p>which describes at the type level transforming a value within a functor, within a functor.</p>
+<p>It absolutely blew my mind that you could work that out from the types alone without
+needing to think about what is happening at the value level at all.</p>
+<p>On <code>Maybe</code> or <code>Either</code>, <code>Nothing</code> and <code>Left</code> values are ignored by <code>fmap</code> because they are
+part of the structure, which must be left intact in order to comply with the functor
+laws.</p>
+<p>Functor (unlike Monoid) only has a single valid instance for a given type.</p>
+<p>Functors are very useful for transforming values inside of <code>IO</code>. I used
+this repeatedly in my QuickCheck testing to transform lists generated by QuickCheck
+into other data-structures which I needed for testing.</p>
+<h4 id="applicative">Applicative</h4>
+<p>As described in the Haskell Book: </p>
+<p>&quot;Applicatives are monoidal functors:</p>
+<ol>
+<li>Monoids give us a way to mash data-structures together. </li>
+<li>Functors give us a way do do function application in a structure.</li>
+<li>Applicatives give us away to apply functions which are themselves in a structure over another structure and then mash the structures together.&quot;</li>
+</ol>
+<p>Applicatives have 2 operations:</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">pure :: Applicative f =&gt; a -&gt; f a
+</code></pre>
+<p>which takes a value of any type and puts it into an applicative context</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">(&lt;*&gt;) :: Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
+</code></pre>
+<p>which applies a function in an applicative structure to values in an applicative 
+structure, and combines the two applicative structures.</p>
+<p>They must together follow the following laws:</p>
+<h5 id="identity-1">Identity</h5>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">pure id &lt;*&gt; v = v
+</code></pre>
+<h5 id="composition-1">Composition</h5>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">pure (.) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w = u &lt;*&gt; (v &lt;*&gt; w)
+</code></pre>
+<h5 id="homomorphism">Homomorphism</h5>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">pure f &lt;*&gt; pure x = pure (f x)
+</code></pre>
+<h5 id="interchange">Interchange</h5>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">u &lt;*&gt; pure y = pure ($ y) &lt;*&gt; u
+</code></pre>
+<p>If we compare, <code>$</code> (which is just function application), <code>&lt;$&gt;</code> (<code>fmap</code>) and <code>&lt;*&gt;</code></p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">$   ::(a -&gt; b) -&gt;   a -&gt;   b
+&lt;$&gt; ::(a -&gt; b) -&gt; f a -&gt; f b
+&lt;*&gt; ::(a -&gt; b) -&gt; f a -&gt; f b
+</code></pre>
+<p>we see that <code>fmap</code> is jut function application over a functor, and applicative
+application is just functorial application, where the function is within a 
+structure, which implies that the structures must be combined in some way.</p>
+<p><code>&lt;*&gt;</code> lets us do function application on functions in a structure like so:</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">Just (*2) &lt;*&gt; Just 3
+=&gt; Just 6
+
+</code></pre>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">Nothing &lt;*&gt; Just 3
+=&gt; Nothing
+</code></pre>
+<p>Wrapping a function in <code>pure</code> and applying <code>&lt;*&gt;</code> is the same as just fmapping using
+the function.</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">pure f &lt;*&gt; y == f &lt;$&gt; y
+</code></pre>
+<p>Applicatives have their structure combined using a monoidal pattern, however
+because there are multiple possible monoidal patterns on many types, there is no
+guarantee the applicative will use any specific Monoid instance for that type. 
+Also, there is no typeclass constraint on Applicatives that they must be Monoids.</p>
+<p>The function application component will be the same as <code>fmap</code> though, as there
+is only one valid functorial instance for a given type.</p>
+<h4 id="monad">Monad</h4>
+<p>As <a href="https://github.com/ncollins">Nick Collins</a> explained during our 
+Haskell Study group, Monad's bind (<code>&gt;&gt;=</code>) is nothing more than flatMap.</p>
+<p>Definition:</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">class Applicative m =&gt; Monad m where
+(&gt;&gt;=) :: m a -&gt; (a -&gt; m b) -&gt; m b
+(&gt;&gt;) :: m a -&gt; m b -&gt; m b
+return :: a -&gt; m a
+</code></pre>
+<p>I also learned about the fish operator:</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">(&gt;=&gt;) Monad m -&gt; (a -&gt; m b) -&gt; (b -&gt; m c) -&gt; a -&gt; m c
+</code></pre>
+<p>I don't have much to say about monads other than if you just treat them like
+things which support flatMap (whereby you are able to flatten out structures 
+generated from calling bind, while adding new resulting values to the new structure) I find that they 
+become a lot easier to work with and reason about.</p>
+<h4 id="foldable">Foldable:</h4>
+<p>Foldable (which is a typeclass which allows your 
+data-structure to be folded over), requires only either
+<code>foldr</code> or  or <code>foldMap</code> to be defined. If you define <code>foldMap</code>
+you need for the type to also have a Monoid instance so you are able to use
+<code>mappend</code> / <code>mconcat</code> to summarize the Monoid structures you are folding over.</p>
+<p>By defining a foldable instance for your type, you are also able to get a number
+of convenience functions which can be written using folding functions inferred automatically including:</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">foldl&#x27; :: (b -&gt; a -&gt; b) -&gt; b -&gt; t a -&gt; b
+toList :: t a -&gt; [a]
+null :: t a -&gt; Bool
+length :: t a -&gt; Int
+elem :: Eq a =&gt; a -&gt; t a -&gt; Bool 
+maximum :: forall a. Ord a =&gt; t a -&gt; a 
+minimum :: forall a. Ord a =&gt; t a -&gt; a 
+sum :: Num a =&gt; t a -&gt; a 
+product :: Num a =&gt; t a -&gt; a 
+</code></pre>
+<p>While learning about Foldable with <a href="https://github.com/sgepigon">Santiago Gepigon</a>
+during the Haskell Study Group, we also learned about the <code>ScopedTypeVariables</code> 
+language extension and how it is needed to define type signatures for
+polymorphic functions defined in where clauses.</p>
+<h4 id="traversable">Traversable:</h4>
+<p>As described in the book:</p>
+<p>&quot;Traversable allows you to transform elements in a structure (like functor) 
+while producing applicative effects along the way, and lift the (potentially 
+multiple) applicative effects outside of the traversable structure.&quot;</p>
+<p>Has 2 functions:</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">sequenceA :: (Traversable t, Applicative f) =&gt; t (f a) -&gt; f (t a)
+</code></pre>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">traverse :: (Traversable t, Applicative f) =&gt; (a -&gt; f b) -&gt; t a -&gt; f (t b)
+</code></pre>
+<p>Here are some examples of how they work:</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">sequenceA  [Just 1, Just 2, Just 3] 
+=&gt; Just [1,2,3]
+sequenceA  [Just 1, Just 2, Nothing]
+=&gt; Nothing
+sequenceA :: (Traversable t, Applicative f)
+=&gt; -&gt; t (f a) -&gt; f (t a)
+traverse :: (Traversable t, Applicative f)
+=&gt; (a -&gt; f a) -&gt; t a -&gt; f (t a)
+</code></pre>
+<p><code>traverse</code> must follow the following laws:</p>
+<h5 id="naturality">Naturality</h5>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">t . traverse f = traverse (t . f)
+</code></pre>
+<h5 id="identity-2">Identity</h5>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">traverse Identity = Identity
+</code></pre>
+<h5 id="composition-2">Composition</h5>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">traverse (Compose . fmap g . f) = Compose . fmap (traverse g) . traverse f
+</code></pre>
+<p><code>sequenceA</code> must follow the following laws:</p>
+<h5 id="naturality-1">Naturality</h5>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">t . sequenceA = sequenceA . fmap t
+</code></pre>
+<h5 id="identity-3">Identity</h5>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">sequenceA . fmap Identity = Identity
+</code></pre>
+<h5 id="composition-3">Composition</h5>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">sequenceA . fmap Compose = Compose . fmap sequenceA . sequenceA
+</code></pre>
+<p>Traverse is really useful when you have a traversable and you need to transform
+it into an applicative of a traversable, while converting each element to an 
+applicative and applying <code>&lt;*&gt;</code> to the intermediate values.</p>
+<h4 id="reader">Reader</h4>
+<p>As mentioned above, functions (<code>(-&gt;) r</code>) are functors and <code>(.) == fmap</code>. The <code>r</code> is part of the functoral
+structure, and therefor the only thing that can change with <code>fmap</code> application is
+the return value of the function. </p>
+<p>(<code>Reader r a</code>) is just a wrapper around  function composition.</p>
+<p>The <code>r</code> from <code>Reader</code> here is part of the <code>f</code> structure, so it gets applied with the first argument:</p>
+<pre data-lang="haskell" class="language-haskell "><code class="language-haskell" data-lang="haskell">pure :: a -&gt; f a
+pure :: a  -&gt; (r -&gt; a)
+
+(&lt;*&gt;) :: f (a -&gt; b) -&gt; f a -&gt; f b
+(&lt;*&gt;) :: (r -&gt; a -&gt; b) -&gt; (r -&gt; a) -&gt; (r -&gt; b)
+</code></pre>
+
+
+        </div>
+        
+    <div class="section bottom-menu">
+        <hr/>
+        <p>
+            
+                
+                    <a href="&#x2F;posts">posts</a>
+                    &#183;
+                
+                    <a href="&#x2F;about">about</a>
+                    &#183;
+                
+                    <a href="&#x2F;projects">projects</a>
+                    &#183;
+                
+                    <a href="https:&#x2F;&#x2F;github.com&#x2F;nicksanford">github</a>
+                    &#183;
+                
+            
+            <a href="https:&#x2F;&#x2F;nicksanford.io">
+                home
+            </a>
+        </p>
+    </div>
+
+        
+    
+        <div class="section footer">
+            stay curious
+        </div>
+    
+
+    </div>
+
+    </body>
+</html>
